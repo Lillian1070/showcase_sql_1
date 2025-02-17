@@ -73,6 +73,86 @@ Return the result table ordered by `visited_on` in ascending order. The result f
 
 
 
+## Solution
+
+*In this section, I will note how I think thru the process...*
+
+### Step 1: Identify the Fields Required
+
+To create the result table with the 7-day moving average of customer payments, I need to find out the following info: 
+
+* The current dates of each 7-day window (see temp table `T`)
+* The total payments for each 7-day window (see step 4a calculation)
+
+
+### Step 2: Create a Temporary Table `T`
+
+To find out the current dates effectively, I create a temporary table `T` that finds all **unique** `visited_on` dates from the `Customer` table where the date is at least 6 days after the earliest recorded `visited_on` date. The goal is to start calculating the moving average from the 7th day onward to ensure each `visited_on` has a **full** 7-day window for the calculation.
+
+```sql
+WITH 
+    T AS (
+        SELECT DISTINCT visited_on
+        FROM Customer
+        WHERE visited_on >= (SELECT DATE_ADD(MIN(visited_on), INTERVAL 6 DAY) FROM Customer)
+    )
+```
+
+The temporary table `T` should be similar to what we have below. 
+
+| visited_on |
+| ---------- |
+| 2019-01-07 |
+| 2019-01-08 |
+| 2019-01-09 |
+| 2019-01-10 |
+
+
+### Step 3: Main Query
+
+```sql
+SELECT 
+    visited_on,
+    amount,
+    average_amount
+FROM Customer
+WHERE visited_on IN (SELECT visited_on FROM T)
+GROUP BY visited_on;
+```
+
+
+### Step 4a: Calculation of `amount`
+
+
+```sql
+(
+    SELECT SUM(amount) 
+    FROM Customer
+    WHERE visited_on BETWEEN DATE_SUB(c.visited_on, INTERVAL 6 DAY) AND c.visited_on
+) AS amount
+```
+
+
+### Step 4b: Calculation of `average_amount`
+
+
+```sql
+(
+    SELECT ROUND(SUM(amount)/7, 2) 
+    FROM Customer
+    WHERE visited_on BETWEEN DATE_SUB(c.visited_on, INTERVAL 6 DAY) AND c.visited_on
+) AS average_amount
+```
+
+
+
+
+
+
+#### Final Syntax and Output using MySQL
+
+##### * Syntax
+
 ```sql
 WITH 
     T AS (
@@ -98,7 +178,23 @@ WHERE visited_on IN (SELECT visited_on FROM T)
 GROUP BY visited_on;
 ```
 
-optimization
+##### * Output
+
+| visited_on | amount | average_amount |
+| ---------- | ------ | -------------- |
+| 2019-01-07 | 860    | 122.86         |
+| 2019-01-08 | 840    | 120            |
+| 2019-01-09 | 840    | 120            |
+| 2019-01-10 | 1000   | 142.86         |
+
+
+
+## Query Optimization using MySQL
+
+*Note: This section is updated on 02/16/2025.*
+
+While reviewing my SQL query, I realized that the `WHERE` condition could be incorporated into the main query without using a `WITH` clause, simplifying the SQL syntax.
+
 
 ```sql
 SELECT 
