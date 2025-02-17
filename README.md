@@ -112,6 +112,10 @@ The temporary table `T` should be similar to what we have below.
 
 Once I have the current dates, I can draft the main query with the required variables and necessary conditions. 
 
+* Variables `amount` and `average_amount` will need further calculations in this case. 
+* The `WHERE` clause ensures that only `visited_on` dates from the temp table `T` are included, so only dates with a full 7-day window are considered.
+* Grouping the results by `visited_on` allows the calculations of the sums and averages for each date.
+
 ```sql
 SELECT 
     visited_on,
@@ -123,8 +127,9 @@ GROUP BY visited_on;
 ```
 
 
-### Step 4a: Calculation of `amount`
+### Step 4a: Calculation of `amount` (Subquery)
 
+This subquery calculates the sum of amount for each `visited_on` date within a 7-day window, including the current date (as `visited_on`).
 
 ```sql
 (
@@ -135,8 +140,9 @@ GROUP BY visited_on;
 ```
 
 
-### Step 4b: Calculation of `average_amount`
+### Step 4b: Calculation of `average_amount` (Subquery)
 
+This subquery calculates the 7-day moving average by dividing the sum of amount over the last 7 days by 7 and rounding it to 2 decimal places.
 
 ```sql
 (
