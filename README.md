@@ -75,7 +75,7 @@ Return the result table ordered by `visited_on` in ascending order. The result f
 
 ## Solution
 
-*In this section, I will note how I think thru the process...*
+*This section outlines my thought process for solving the problem.*
 
 ### Step 1: Identify the Fields Required
 
