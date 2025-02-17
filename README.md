@@ -110,11 +110,13 @@ The temporary table `T` should be similar to what we have below.
 
 ### Step 3: Main Query
 
+Once I have the current dates, I can draft the main query with the required variables and necessary conditions. 
+
 ```sql
 SELECT 
     visited_on,
-    amount,
-    average_amount
+    amount, -- need further calculation
+    average_amount -- need further calculation
 FROM Customer
 WHERE visited_on IN (SELECT visited_on FROM T)
 GROUP BY visited_on;
