@@ -201,7 +201,7 @@ GROUP BY visited_on;
 
 While reviewing my SQL query, I realized that the `WHERE` condition could be incorporated into the main query without using a `WITH` clause, simplifying the SQL syntax.
 
-* Please note that `c.visited_on` specifically refers to the `visited_on` column from the `Customer` table in the main query, while `sub.visited_on` specifically refers to the `visited_on` column from the `Customer` table in the subquery at the second-to-last line. 
+Please note that `c.visited_on` specifically refers to the `visited_on` column from the `Customer` table in the main query, while `sub.visited_on` specifically refers to the `visited_on` column from the `Customer` table in the subquery at the second-to-last line. 
 
 ```sql
 SELECT 
