@@ -112,8 +112,8 @@ The temporary table `T` should be similar to what we have below.
 
 Once I have the current dates, I can draft the main query with the required variables and necessary conditions. 
 
-* Variables `amount` and `average_amount` will need further calculations in this case. 
-* The `WHERE` clause ensures that only `visited_on` dates from the temp table `T` are included, so only dates with a full 7-day window are considered.
+* Listing out `visited_on`, `amount`, `average_amount` per example result table. Variables `amount` and `average_amount` will need further calculations in this case. 
+* Using `WHERE` clause ensures that only `visited_on` dates from the temp table `T` are included, so only dates with a full 7-day window are considered.
 * Grouping the results by `visited_on` allows the calculations of the sums and averages for each date.
 
 ```sql
@@ -129,7 +129,7 @@ GROUP BY visited_on;
 
 ### Step 4a: Calculation of `amount` (Subquery)
 
-This subquery calculates the sum of amount for each `visited_on` date within a 7-day window, including the current date (as `visited_on`).
+This subquery calculates the sum of the amount for each `visited_on` date within a 7-day window, including the current date (as `visited_on`).
 
 ```sql
 (
@@ -142,7 +142,7 @@ This subquery calculates the sum of amount for each `visited_on` date within a 7
 
 ### Step 4b: Calculation of `average_amount` (Subquery)
 
-This subquery calculates the 7-day moving average by dividing the sum of amount over the last 7 days by 7 and rounding it to 2 decimal places.
+This subquery calculates the 7-day moving average by dividing the sum of the amount over the last 7 days by 7 and rounding it to 2 decimal places.
 
 ```sql
 (
@@ -151,9 +151,6 @@ This subquery calculates the 7-day moving average by dividing the sum of amount 
     WHERE visited_on BETWEEN DATE_SUB(c.visited_on, INTERVAL 6 DAY) AND c.visited_on
 ) AS average_amount
 ```
-
-
-
 
 
 
@@ -186,6 +183,7 @@ WHERE visited_on IN (SELECT visited_on FROM T)
 GROUP BY visited_on;
 ```
 
+
 ##### * Output
 
 | visited_on | amount | average_amount |
@@ -203,6 +201,7 @@ GROUP BY visited_on;
 
 While reviewing my SQL query, I realized that the `WHERE` condition could be incorporated into the main query without using a `WITH` clause, simplifying the SQL syntax.
 
+* Please note that `c.visited_on` specifically refers to the `visited_on` column from the `Customer` table in the main query, while `sub.visited_on` specifically refers to the `visited_on` column from the `Customer` table in the subquery at the second-to-last line. 
 
 ```sql
 SELECT 
@@ -218,6 +217,6 @@ SELECT
         WHERE visited_on BETWEEN DATE_SUB(c.visited_on, INTERVAL 6 DAY) AND c.visited_on
     ) AS average_amount
 FROM Customer c
-WHERE visited_on >= (SELECT DATE_ADD(MIN(visited_on), INTERVAL 6 DAY) FROM Customer)
+WHERE visited_on >= (SELECT DATE_ADD(MIN(sub.visited_on), INTERVAL 6 DAY) FROM Customer sub)
 GROUP BY visited_on;
 ```
