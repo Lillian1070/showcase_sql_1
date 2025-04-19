@@ -1,6 +1,7 @@
 # [SQL] 7-day Moving Average of Customer Payments
 
-This SQL practice problem is based on **[LeetCode SQL 50 - 1321. Restaurant Growth](https://leetcode.com/problems/restaurant-growth/description/?envType=study-plan-v2&envId=top-sql-50)** 
+_This SQL practice problem is based on **[LeetCode SQL 50 - 1321. Restaurant Growth](https://leetcode.com/problems/restaurant-growth/description/?envType=study-plan-v2&envId=top-sql-50)**, used here for personal learning and educational purposes._
+
 - **Objective:** Calculate the 7-day moving average of customer payments to assess the feasibility of expansion.  
 - **Practice Purpose:** Self-learning and reinforcement of SQL joins, aggregation, and window functions.
 - **Outline:**
