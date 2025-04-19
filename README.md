@@ -4,12 +4,12 @@ This SQL practice problem is based on **[LeetCode SQL 50 - 1321. Restaurant Grow
 - **Objective:** Calculate the 7-day moving average of customer payments to assess the feasibility of expansion.  
 - **Practice Purpose:** Self-learning and reinforcement of SQL joins, aggregation, and window functions.
 - **Outline:**
-  - Practice (practice problem and query output)
-  - Solution (step-by-step explanation)
-  - Query Optimization (refinement for efficiency and readability)
+  - [**Practice**](#section-1) (practice problem and query output)
+  - [**Solution**](#section-2) (step-by-step explanation)
+  - [**Query Optimization**](#section-3) (refinement for efficiency and readability)
 
 
-## Practice
+## <a name="section-1"></a>🧪 Practice
 
 Table: `Customer`
 
@@ -73,7 +73,7 @@ Return the result table ordered by `visited_on` in ascending order. The result f
 
 
 
-## Solution
+## <a name="section-2"></a>🧠 Solution
 
 *This section outlines my thought process for solving the problem.*
 
@@ -195,7 +195,7 @@ GROUP BY visited_on;
 
 
 
-## Query Optimization using MySQL
+## <a name="section-3"></a>🛠️ Query Optimization using MySQL
 
 *Note: This section is updated on 02/16/2025.*
 
