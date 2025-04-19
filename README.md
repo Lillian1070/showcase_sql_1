@@ -1,4 +1,4 @@
-# [SQL] 7-day Moving Average of Customer Payments
+# [SQL] Calculating 7-day Moving Average of Customer Payments
 
 _This SQL practice problem is based on **[LeetCode SQL 50 - 1321. Restaurant Growth](https://leetcode.com/problems/restaurant-growth/description/?envType=study-plan-v2&envId=top-sql-50)**, used here for personal learning and educational purposes._
 
